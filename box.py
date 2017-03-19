@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import sys
-from pprint import pprint
 
 if len(sys.argv) < 2:
     print('Usage: ' + sys.argv[0] + ' <word>')
@@ -11,6 +10,7 @@ if len(word) % 2 != 1 or len(word) < 5:
     print('Word must have an odd number of characters and be at least 5 characters long.')
     exit(1)
 
+# Generate front and back faces of cube
 front_face = [[] for i in word]
 for i in range(len(word)):
     if i == 0:
@@ -37,6 +37,7 @@ for line in back_face:
 
 superimposed = [['' for x in range(size)] for y in range(size)]
 
+# Combine front and back faces
 for i in range(size):
     for j in range(size):
         front = front_face[i][j]
@@ -46,16 +47,18 @@ for i in range(size):
                 (front if front is not ' ' else None) or \
                 (back if back is not ' ' else None) or ' '
 
+# Insert diagonals
 for i,j,k,l in zip(
-        range(1, int(size / 3)), # 1, 2, 3
-        range(int(size / 3) - 1, 0, -1), # 3, 2, 1
-        range(int(size * 2 / 3) + 1, size - 1), # 9, 10, 11
-        range(size - 2, int(size * 2 / 3), -1) # 11, 10, 9
+        range(1, int(size / 3)),
+        range(int(size / 3) - 1, 0, -1),
+        range(int(size * 2 / 3) + 1, size - 1),
+        range(size - 2, int(size * 2 / 3), -1)
         ):
     superimposed[i][j] = '/'
     superimposed[i][l] = '/'
     superimposed[k][j] = '/'
     superimposed[k][l] = '/'
 
+# Print it out
 for i in superimposed:
     print(' '.join(i))
